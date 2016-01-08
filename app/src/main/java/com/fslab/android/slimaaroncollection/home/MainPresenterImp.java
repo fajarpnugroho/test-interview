@@ -39,8 +39,6 @@ public class MainPresenterImp<V extends MainView> implements MainPresenter<V>,
         getView().hideLoading();
         if (images.images.size() > 0) {
             getView().showImageContent(images);
-        } else {
-            getView().showEmpty();
         }
     }
 }

@@ -64,13 +64,4 @@ public class MainActivity<V extends MainView> extends BaseActivity<V> implements
         contentView.setAdapter(new GridImagesAdapter(this, images.images));
     }
 
-    @Override
-    public void showError() {
-
-    }
-
-    @Override
-    public void showEmpty() {
-
-    }
 }

@@ -11,8 +11,4 @@ public interface BaseLoadingContentView extends BaseView {
     void hideLoading();
 
     void showImageContent(Images images);
-
-    void showError();
-
-    void showEmpty();
 }
