@@ -67,6 +67,7 @@ public class GridImagesAdapter extends BaseAdapter {
         public void bind(Context context, String image) {
             Picasso.with(context)
                     .load(image)
+                    .resize(150, 150)
                     .into(imageView);
         }
     }

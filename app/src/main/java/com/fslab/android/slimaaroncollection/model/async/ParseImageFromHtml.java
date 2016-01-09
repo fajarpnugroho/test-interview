@@ -18,6 +18,7 @@ import timber.log.Timber;
 public class ParseImageFromHtml extends AsyncTask<String, Void, Images> {
 
     private ParseImageCallback callback;
+    private Images images = new Images(new ArrayList<ImageEntity>());
 
     public ParseImageFromHtml(ParseImageCallback callback) {
         this.callback = callback;
@@ -25,24 +26,35 @@ public class ParseImageFromHtml extends AsyncTask<String, Void, Images> {
 
     @Override
     protected Images doInBackground(String... params) {
-        Images images = new Images(new ArrayList<ImageEntity>());
-
         try {
             Document doc = Jsoup.connect(params[0]).get();
+
+            // get slider images
+            Elements sliderWraper = doc.select("div#slider li");
+            Elements sliderImages = sliderWraper.select("img");
+
+            for (Element image : sliderImages) {
+                addImageToCollection(image);
+            }
+
+            // get related images
             Elements relatedWraper = doc.select("div.exhibitionrepeater");
             Elements relatedImages = relatedWraper.select("img");
 
             for (Element image : relatedImages) {
-                String imageUrl = ImageEntity.BASE_URL + image.attr("src");
-                ImageEntity imageEntity = new ImageEntity(imageUrl);
-                images.images.add(imageEntity);
-                Timber.i("Fetch image " + imageUrl);
+                addImageToCollection(image);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return images;
+    }
+
+    private void addImageToCollection(Element image) {
+        String imageUrl = ImageEntity.BASE_URL + image.attr("src");
+        ImageEntity imageEntity = new ImageEntity(imageUrl);
+        images.images.add(imageEntity);
     }
 
     @Override
