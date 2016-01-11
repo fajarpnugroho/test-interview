@@ -19,16 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".detail.DetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <data
-                    android:host="www.gettyimagesgallery.com"
-                    android:scheme="http" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
-
     </application>
 
 </manifest>

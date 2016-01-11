@@ -37,8 +37,10 @@ public class MainPresenterImp<V extends MainView> implements MainPresenter<V>,
     @Override
     public void fetchImageDone(Images images) {
         getView().hideLoading();
-        if (images.images.size() > 0) {
+        if (images != null) {
             getView().showImageContent(images);
+        } else {
+            getView().showError();
         }
     }
 }

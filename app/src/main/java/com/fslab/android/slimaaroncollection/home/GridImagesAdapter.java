@@ -22,9 +22,13 @@ public class GridImagesAdapter extends BaseAdapter {
     private List<ImageEntity> images = new ArrayList<>();
     private LayoutInflater layoutInflater;
 
-    public GridImagesAdapter(Context context, List<ImageEntity> images) {
+    public GridImagesAdapter(Context context) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.images = images;
+    }
+
+    public void addAll(List<ImageEntity> images) {
+        this.images.addAll(images);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,7 +50,7 @@ public class GridImagesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.view_item_image_grid, parent, false);
+            convertView = layoutInflater.inflate(R.layout.view_item_image_grid, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -54,6 +58,10 @@ public class GridImagesAdapter extends BaseAdapter {
         }
         holder.bind(parent.getContext(), getItem(position).url);
         return convertView;
+    }
+
+    public void clear() {
+        images.clear();
     }
 
     static class ViewHolder {

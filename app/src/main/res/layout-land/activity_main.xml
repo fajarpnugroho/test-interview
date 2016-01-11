@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:horizontalSpacing="8dp"
-            android:numColumns="4"
+            android:numColumns="7"
             android:verticalSpacing="8dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 

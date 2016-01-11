@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -45,8 +46,10 @@ public class ParseImageFromHtml extends AsyncTask<String, Void, Images> {
                 addImageToCollection(image);
             }
 
+        } catch (SocketTimeoutException e) {
+            return null;
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
         return images;
     }

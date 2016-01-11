@@ -1,23 +1,29 @@
 package com.fslab.android.slimaaroncollection.home;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.widget.GridView;
+import android.widget.Toast;
 
 import com.fslab.android.slimaaroncollection.BaseActivity;
 import com.fslab.android.slimaaroncollection.R;
 import com.fslab.android.slimaaroncollection.model.response.Images;
 import com.fslab.android.slimaaroncollection.util.Constant;
-import com.fslab.android.slimaaroncollection.view.LoadingGridContentView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity<V extends MainView> extends BaseActivity<V> implements MainView {
+public class MainActivity<V extends MainView> extends BaseActivity<V> implements MainView,
+        SwipeRefreshLayout.OnRefreshListener {
 
     public static final String EXTRA_IMAGES = "extra_images";
 
-    @Bind(R.id.loading_grid_content_view) LoadingGridContentView contentView;
+    @Bind(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.grid_view) GridView contentView;
 
     private Images images;
+    private MainPresenter presenter;
+    private GridImagesAdapter adapter;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -27,7 +33,11 @@ public class MainActivity<V extends MainView> extends BaseActivity<V> implements
 
         ButterKnife.bind(this);
 
-        MainPresenter presenter = new MainPresenterImp();
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        adapter = new GridImagesAdapter(this);
+
+        presenter = new MainPresenterImp();
         presenter.setView(this);
 
         if (savedInstanceState != null) {
@@ -50,18 +60,35 @@ public class MainActivity<V extends MainView> extends BaseActivity<V> implements
 
     @Override
     public void showLoading() {
-        contentView.onLoading(true);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
     public void hideLoading() {
-        contentView.onLoading(false);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showImageContent(Images images) {
         this.images = images;
-        contentView.setAdapter(new GridImagesAdapter(this, images.images));
+        adapter.clear();
+        adapter.addAll(images.images);
+
+        contentView.setAdapter(adapter);
     }
 
+    @Override
+    public void showError() {
+        Toast.makeText(this, "Fail to get images", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.fetchImages();
+    }
 }
