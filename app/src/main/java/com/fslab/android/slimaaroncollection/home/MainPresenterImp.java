@@ -3,23 +3,22 @@ package com.fslab.android.slimaaroncollection.home;
 import com.fslab.android.slimaaroncollection.model.async.ParseImageFromHtml;
 import com.fslab.android.slimaaroncollection.model.response.Images;
 
-public class MainPresenterImp<V extends MainView> implements MainPresenter<V>,
-        ParseImageFromHtml.ParseImageCallback {
+public class MainPresenterImp implements MainPresenter, ParseImageFromHtml.ParseImageCallback {
 
     public static final String IMAGES_SOURCE_URL =
             "http://www.gettyimagesgallery.com/collections/archive/slim-aarons.aspx";
 
-    private V view;
+    private MainView view;
 
     public MainPresenterImp() {}
 
     @Override
-    public void setView(V view) {
+    public void setView(MainView view) {
         this.view = view;
     }
 
     @Override
-    public V getView() {
+    public MainView getView() {
         return view;
     }
 

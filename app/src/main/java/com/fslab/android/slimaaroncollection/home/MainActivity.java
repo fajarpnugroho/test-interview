@@ -13,7 +13,7 @@ import com.fslab.android.slimaaroncollection.util.Constant;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity<V extends MainView> extends BaseActivity<V> implements MainView,
+public class MainActivity extends BaseActivity implements MainView,
         SwipeRefreshLayout.OnRefreshListener {
 
     public static final String EXTRA_IMAGES = "extra_images";
