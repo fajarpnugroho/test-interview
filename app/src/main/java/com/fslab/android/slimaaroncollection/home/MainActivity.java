@@ -37,8 +37,7 @@ public class MainActivity extends BaseActivity implements MainView,
 
         adapter = new GridImagesAdapter(this);
 
-        presenter = new MainPresenterImp();
-        presenter.setView(this);
+        presenter = new MainPresenterImp(this);
 
         if (savedInstanceState != null) {
             String jsonImages = savedInstanceState.getString(MainActivity.EXTRA_IMAGES);
@@ -76,7 +75,9 @@ public class MainActivity extends BaseActivity implements MainView,
     @Override
     public void showImageContent(Images images) {
         this.images = images;
+
         adapter.clear();
+
         adapter.addAll(images.images);
 
         contentView.setAdapter(adapter);

@@ -10,36 +10,24 @@ public class MainPresenterImp implements MainPresenter, ParseImageFromHtml.Parse
 
     private MainView view;
 
-    public MainPresenterImp() {}
-
-    @Override
-    public void setView(MainView view) {
+    public MainPresenterImp(MainView view) {
         this.view = view;
     }
 
     @Override
-    public MainView getView() {
-        return view;
-    }
-
-    @Override
     public void fetchImages() {
-        if (getView() == null) {
-            throw new IllegalStateException("View still null.");
-        }
-
-        getView().showLoading();
+        view.showLoading();
 
         new ParseImageFromHtml(this).execute(IMAGES_SOURCE_URL);
     }
 
     @Override
     public void fetchImageDone(Images images) {
-        getView().hideLoading();
+        view.hideLoading();
         if (images != null) {
-            getView().showImageContent(images);
+            view.showImageContent(images);
         } else {
-            getView().showError();
+            view.showError();
         }
     }
 }
