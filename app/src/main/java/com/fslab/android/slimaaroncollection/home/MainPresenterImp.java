@@ -9,16 +9,18 @@ public class MainPresenterImp implements MainPresenter, ParseImageFromHtml.Parse
             "http://www.gettyimagesgallery.com/collections/archive/slim-aarons.aspx";
 
     private MainView view;
+    private MainInteractor interactor;
 
     public MainPresenterImp(MainView view) {
         this.view = view;
+        this.interactor = new MainInteractorImp();
     }
 
     @Override
     public void fetchImages() {
         view.showLoading();
 
-        new ParseImageFromHtml(this).execute(IMAGES_SOURCE_URL);
+        interactor.parseImageFromHtml(IMAGES_SOURCE_URL, this);
     }
 
     @Override
